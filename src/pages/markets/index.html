@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Market Data — Stocks, Crypto &amp; Signals | FinanceBase</title>
+  <meta name="description" content="Real-time stock prices, live crypto market data, technical buy/sell signals and US macroeconomic indicators in one dashboard.">
+  <meta name="keywords" content="live stock prices, crypto prices today, RSI MACD screener, buy sell signals, stock market dashboard, bitcoin price">
+  <link rel="canonical" href="https://financebase.org/markets/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/main.css">
+  <style>
+    .page-head { padding:100px 0 36px; background:linear-gradient(158deg,#f2f5fb 0%,#fff 100%); border-bottom:1px solid var(--rule); }
+    .crypto-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+    .crypto-card { background:var(--white); border:1px solid var(--rule); border-radius:var(--r-lg); padding:18px; box-shadow:var(--sh-sm); transition:all .2s; }
+    .crypto-card:hover { transform:translateY(-2px); box-shadow:var(--sh); }
+    .macro-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
+    .macro-card { background:var(--white); border:1px solid var(--rule); border-radius:var(--r-lg); padding:20px; box-shadow:var(--sh-sm); }
+    .yield-bars { display:flex; align-items:flex-end; gap:8px; height:90px; }
+    .yield-col { display:flex; flex-direction:column; align-items:center; gap:4px; flex:1; }
+    .yield-bar { width:100%; border-radius:3px 3px 0 0; background:linear-gradient(180deg,var(--blue),#6b9fff); min-height:4px; }
+    @media(max-width:1024px){ .crypto-grid{grid-template-columns:1fr 1fr} .macro-grid{grid-template-columns:1fr 1fr} }
+  </style>
+</head>
+<body>
+<nav class="nav" id="nav"></nav>
+<div class="ticker" style="margin-top:60px"><div class="ticker-track" id="ticker-track"></div></div>
+
+<div class="page-head">
+  <div class="wrap">
+    <div class="eyebrow mb-8">Markets</div>
+    <h1>Live Market Data</h1>
+    <p class="lead">Real-time prices, signals and macro indicators — all in one place.</p>
+  </div>
+</div>
+
+<!-- STOCKS -->
+<section class="section" id="stocks">
+  <div class="wrap">
+    <header class="sec-header"><div class="eyebrow mb-8">Equities</div><h2>Stock Prices</h2></header>
+    <div class="tabs" id="stock-tabs">
+      <button class="tab-btn active" onclick="switchTab('stocks',this)">Large Cap</button>
+      <button class="tab-btn" onclick="switchTab('etfs',this)">ETFs</button>
+      <button class="tab-btn" onclick="switchTab('commodities',this)">Commodities</button>
+    </div>
+    <div class="card">
+      <table class="tbl">
+        <thead><tr><th>Asset</th><th class="r">Price</th><th class="r">24h</th><th class="r">Volume</th><th class="r">7d Trend</th><th class="r">Mkt Cap</th></tr></thead>
+        <tbody id="stocks-tbody"></tbody>
+      </table>
+    </div>
+    <p class="caption mt-8">Data may be delayed. <a href="https://www.alphavantage.co" target="_blank" style="color:var(--blue)">Alpha Vantage</a> live quotes load automatically when market is open.</p>
+  </div>
+</section>
+
+<!-- CRYPTO -->
+<section class="section section--alt" id="crypto">
+  <div class="wrap">
+    <header class="sec-header"><div class="eyebrow mb-8">Cryptocurrency</div><h2>Crypto Prices</h2><p class="body-sm">Live data from CoinGecko, updated every 60 seconds.</p></header>
+    <div class="crypto-grid" id="crypto-grid">
+      <div class="crypto-card" style="height:120px"><div class="skel" style="height:100%;border-radius:var(--r)"></div></div>
+      <div class="crypto-card" style="height:120px"><div class="skel" style="height:100%;border-radius:var(--r)"></div></div>
+      <div class="crypto-card" style="height:120px"><div class="skel" style="height:100%;border-radius:var(--r)"></div></div>
+      <div class="crypto-card" style="height:120px"><div class="skel" style="height:100%;border-radius:var(--r)"></div></div>
+      <div class="crypto-card" style="height:120px"><div class="skel" style="height:100%;border-radius:var(--r)"></div></div>
+      <div class="crypto-card" style="height:120px"><div class="skel" style="height:100%;border-radius:var(--r)"></div></div>
+      <div class="crypto-card" style="height:120px"><div class="skel" style="height:100%;border-radius:var(--r)"></div></div>
+      <div class="crypto-card" style="height:120px"><div class="skel" style="height:100%;border-radius:var(--r)"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNALS -->
+<section class="section" id="signals">
+  <div class="wrap">
+    <header class="sec-header"><div class="eyebrow mb-8">Technical Analysis</div><h2>Signal Screener</h2><p class="body-sm">Signals derived from RSI(14), MACD crossover and 200-day moving average. For informational purposes only — not financial advice.</p></header>
+    <div class="card">
+      <table class="tbl">
+        <thead><tr><th>Ticker</th><th class="r">Price</th><th class="r">RSI (14)</th><th class="r">MACD</th><th class="r">vs 200 MA</th><th>Signal</th><th>Conviction</th></tr></thead>
+        <tbody id="signals-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- MACRO -->
+<section class="section section--alt" id="macro">
+  <div class="wrap">
+    <header class="sec-header"><div class="eyebrow mb-8">Macroeconomics</div><h2>Economic Dashboard</h2><p class="body-sm">Key US indicators from the Federal Reserve and official sources.</p></header>
+    <div class="macro-grid">
+      <div class="macro-card"><div class="kpi-lbl">Fed Funds Rate</div><div class="kpi-val">4.25%</div><div class="caption mt-8 text-green">Cut 0.25pp — Dec 2024</div></div>
+      <div class="macro-card"><div class="kpi-lbl">CPI Inflation (YoY)</div><div class="kpi-val">2.9%</div><div class="caption mt-8 text-green">Below 3% since Jan 2025</div></div>
+      <div class="macro-card"><div class="kpi-lbl">Unemployment</div><div class="kpi-val">4.1%</div><div class="caption mt-8 text-red">+0.1pp vs Dec 2024</div></div>
+      <div class="macro-card"><div class="kpi-lbl">2Y Treasury</div><div class="kpi-val">4.26%</div><div class="caption mt-8 text-green">-0.05pp week-on-week</div></div>
+      <div class="macro-card"><div class="kpi-lbl">10Y Treasury</div><div class="kpi-val">4.48%</div><div class="caption mt-8 text-green">-0.08pp week-on-week</div></div>
+      <div class="macro-card"><div class="kpi-lbl">30Y Treasury</div><div class="kpi-val">4.67%</div><div class="caption mt-8 text-red">+0.02pp week-on-week</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span style="font-weight:600">US Treasury Yield Curve</span><span class="caption">Indicative · Updated weekly</span></div>
+      <div class="card-pad"><div class="yield-bars" id="yield-bars"></div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" id="footer"></footer>
+<script type="module" src="../../js/markets.js"></script>
+</body>
+</html>
