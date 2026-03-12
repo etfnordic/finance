@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinanceBase — Real-Time Markets, Tools &amp; Financial Insights</title>
+  <meta name="description" content="Free financial tools, live stock and crypto data, compound interest calculator, US tax calculator 2025 and macro insights. No account required.">
+  <meta name="keywords" content="compound interest calculator, stock market data, crypto prices, tax calculator 2025, DCA calculator, FIRE calculator, financial tools">
+  <link rel="canonical" href="https://financebase.org/">
+  <meta property="og:title" content="FinanceBase — Free Financial Tools &amp; Live Market Data">
+  <meta property="og:description" content="Real-time markets, crypto prices, and professional financial calculators — free for every investor.">
+  <meta property="og:url" content="https://financebase.org">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── hero ── */
+    .hero { padding: 120px 0 72px; background: linear-gradient(158deg, #f2f5fb 0%, #fff 55%, #f7f9fc 100%); border-bottom: 1px solid var(--rule); }
+    .hero-grid { display: grid; grid-template-columns: 1fr 440px; gap: 64px; align-items: center; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 20px; }
+    .hero-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    .hero h1 { font-family: var(--serif); font-size: clamp(40px, 5.5vw, 64px); font-weight: 800; line-height: 1.06; letter-spacing: -2px; margin-bottom: 20px; }
+    .hero h1 em { font-style: italic; color: var(--blue); }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+
+    /* ── snapshot card ── */
+    .snap-card { background: var(--white); border: 1px solid var(--rule); border-radius: var(--r-xl); box-shadow: var(--sh-lg); overflow: hidden; }
+    .snap-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: var(--canvas); border-bottom: 1px solid var(--rule); }
+    .snap-live { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--green); background: var(--green-lt); padding: 3px 8px; border-radius: var(--r-xs); }
+    .snap-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; }
+    .snap-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .snap-cell { padding: 16px 18px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .snap-cell:nth-child(even) { border-right: none; }
+    .snap-cell:nth-child(3), .snap-cell:nth-child(4) { border-bottom: none; }
+    .snap-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .7px; color: var(--ink-3); margin-bottom: 7px; }
+    .snap-val { font-family: var(--mono); font-size: 19px; font-weight: 500; margin-bottom: 5px; }
+    .snap-chg { font-family: var(--mono); font-size: 12px; font-weight: 500; }
+    .snap-stats { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid var(--rule); }
+    .snap-stat { padding: 12px 14px; text-align: center; border-right: 1px solid var(--rule); }
+    .snap-stat:last-child { border-right: none; }
+    .snap-stat-val { font-family: var(--mono); font-size: 14px; font-weight: 500; }
+    .snap-stat-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; color: var(--ink-3); margin-top: 3px; }
+
+    /* ── dark strip ── */
+    .strip { background: var(--ink); padding: 40px 0; }
+    .strip-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+    .strip-item { padding: 0 32px; border-right: 1px solid rgba(255,255,255,.08); }
+    .strip-item:last-child { border-right: none; }
+    .strip-val { font-family: var(--serif); font-size: 38px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .strip-lbl { font-size: 13px; color: rgba(255,255,255,.45); }
+
+    /* ── tool cards ── */
+    .tool-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .tool-card { display: block; background: var(--white); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: 24px; transition: all .2s; text-decoration: none; color: inherit; }
+    .tool-card:hover { border-color: rgba(18,70,230,.3); box-shadow: var(--sh); transform: translateY(-2px); }
+    .tool-icon { width: 40px; height: 40px; border-radius: var(--r); background: var(--blue-lt); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+    .tool-card h3 { font-family: var(--serif); font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .tool-card p { font-size: 13px; color: var(--ink-2); line-height: 1.65; margin-bottom: 12px; }
+    .badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; padding: 3px 8px; border-radius: var(--r-xs); }
+    .badge-blue  { background: var(--blue-lt);  color: var(--blue);  }
+    .badge-green { background: var(--green-lt); color: var(--green); }
+    .badge-amber { background: var(--amber-lt); color: var(--amber); }
+
+    /* ── preview table ── */
+    .preview-tbl { width:100%; border-collapse:collapse; }
+    .preview-tbl thead th { font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--ink-3);padding:10px 14px;border-bottom:2px solid var(--rule);text-align:left; }
+    .preview-tbl thead th:not(:first-child) { text-align:right; }
+    .preview-tbl tbody tr { border-bottom:1px solid var(--rule-2);transition:background .12s; }
+    .preview-tbl tbody tr:hover { background:var(--canvas); }
+    .preview-tbl td { padding:12px 14px;font-size:14px;vertical-align:middle; }
+    .preview-tbl td:not(:first-child) { text-align:right; }
+
+    /* ── news ── */
+    .news-feature { background:var(--white);border:1px solid var(--rule);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-sm); }
+    .news-img-placeholder { height:180px;background:linear-gradient(135deg,var(--blue-lt),#dce8fd);display:flex;align-items:center;justify-content:center; }
+    .news-cat { font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--blue);margin-bottom:8px; }
+    .news-title { font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.3;margin-bottom:10px; }
+    .news-excerpt { font-size:14px;color:var(--ink-2);line-height:1.7;margin-bottom:14px; }
+    .news-src { font-weight:600;color:var(--ink-2); }
+    .news-list-card { background:var(--white);border:1px solid var(--rule);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-sm); }
+    .news-list-item { padding:15px 20px;border-bottom:1px solid var(--rule-2);transition:background .12s;cursor:pointer; }
+    .news-list-item:hover { background:var(--canvas); }
+    .news-list-item:last-child { border-bottom:none; }
+
+    @media(max-width:1024px){ .hero-grid{grid-template-columns:1fr} .tool-grid{grid-template-columns:1fr 1fr} }
+    @media(max-width:640px){ .tool-grid{grid-template-columns:1fr} .strip-grid{grid-template-columns:1fr 1fr;gap:28px 0} .strip-item{border-right:none;padding:0 24px} }
+  </style>
+  <script type="module" crossorigin src="/assets/main-DI55Cebm.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/ui-D0XLm06S.js">
+  <link rel="modulepreload" crossorigin href="/assets/charts-KMvg-zGG.js">
+  <link rel="stylesheet" crossorigin href="/assets/ui-DxYj9V9p.css">
+</head>
+<body>
+<nav class="nav" id="nav"></nav>
+<div class="ticker" style="margin-top:60px"><div class="ticker-track" id="ticker-track"></div></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="fade">
+        <div class="hero-eyebrow eyebrow">
+          <span class="hero-dot"></span>
+          Markets open · Live data
+        </div>
+        <h1>Invest with<br><em>clarity.</em></h1>
+        <p class="lead" style="max-width:460px">Real-time market data, professional financial tools and macro insights — free for every investor. No account. No paywall.</p>
+        <div class="hero-btns">
+          <a href="/calculators/" class="btn btn-primary">Explore Tools</a>
+          <a href="/markets/" class="btn btn-outline">Live Markets</a>
+        </div>
+      </div>
+
+      <div class="snap-card fade fade-2">
+        <div class="snap-head">
+          <span class="eyebrow" style="font-size:10px">Market Snapshot</span>
+          <span class="snap-live"><span class="snap-dot"></span>Live</span>
+        </div>
+        <div class="snap-grid">
+          <div class="snap-cell">
+            <div class="snap-lbl">S&amp;P 500</div>
+            <div class="snap-val">5,782</div>
+            <div class="snap-chg text-green">+0.64%</div>
+          </div>
+          <div class="snap-cell">
+            <div class="snap-lbl">NASDAQ</div>
+            <div class="snap-val">19,341</div>
+            <div class="snap-chg text-green">+0.91%</div>
+          </div>
+          <div class="snap-cell">
+            <div class="snap-lbl">Bitcoin</div>
+            <div class="snap-val" id="h-btc">—</div>
+            <div class="snap-chg" id="h-btc-c">Loading…</div>
+          </div>
+          <div class="snap-cell">
+            <div class="snap-lbl">Gold / oz</div>
+            <div class="snap-val">2,642</div>
+            <div class="snap-chg text-green">+0.18%</div>
+          </div>
+        </div>
+        <div class="snap-stats">
+          <div class="snap-stat">
+            <div class="snap-stat-val">44 <span style="font-size:9px;color:var(--red)">Fear</span></div>
+            <div class="snap-stat-lbl">Fear &amp; Greed</div>
+          </div>
+          <div class="snap-stat">
+            <div class="snap-stat-val" id="h-mcap">—</div>
+            <div class="snap-stat-lbl">Crypto Cap</div>
+          </div>
+          <div class="snap-stat">
+            <div class="snap-stat-val" id="h-dom">—</div>
+            <div class="snap-stat-lbl">BTC Dom</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="wrap">
+    <div class="strip-grid">
+      <div class="strip-item"><div class="strip-val">12+</div><div class="strip-lbl">Free financial tools</div></div>
+      <div class="strip-item"><div class="strip-val">Live</div><div class="strip-lbl">Crypto &amp; stock data</div></div>
+      <div class="strip-item"><div class="strip-val">$0</div><div class="strip-lbl">No account needed</div></div>
+      <div class="strip-item"><div class="strip-val">2025</div><div class="strip-lbl">US tax brackets</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLS -->
+<section class="section">
+  <div class="wrap">
+    <header class="sec-header fade">
+      <div class="eyebrow mb-8">Free Tools</div>
+      <h2>Everything you need to invest smarter</h2>
+    </header>
+    <div class="tool-grid">
+      <a href="/calculators/#compound" class="tool-card fade fade-1">
+        <div class="tool-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+        <h3>Compound Interest</h3>
+        <p>Visualize how investments grow with reinvested returns and monthly contributions over any horizon.</p>
+        <span class="badge badge-blue">Most searched</span>
+      </a>
+      <a href="/calculators/#tax" class="tool-card fade fade-2">
+        <div class="tool-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <h3>Income Tax Calculator</h3>
+        <p>Estimate your 2025 US federal income tax across all seven brackets. All filing statuses supported.</p>
+        <span class="badge badge-green">Updated 2025</span>
+      </a>
+      <a href="/calculators/#dca" class="tool-card fade fade-3">
+        <div class="tool-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h3>DCA Calculator</h3>
+        <p>Model Dollar Cost Averaging into any asset. See how regular investing outperforms timing the market.</p>
+        <span class="badge badge-amber">Crypto &amp; stocks</span>
+      </a>
+      <a href="/calculators/#fire" class="tool-card fade fade-1">
+        <div class="tool-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><path d="M3 17l4-4 4 4 4-8 4 4"/></svg></div>
+        <h3>FIRE Calculator</h3>
+        <p>Find your Financial Independence number and calculate exactly when you can retire early.</p>
+        <span class="badge badge-blue">Retirement</span>
+      </a>
+      <a href="/markets/#signals" class="tool-card fade fade-2">
+        <div class="tool-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 010 8.49M7.76 16.24a6 6 0 010-8.49"/><path d="M20.07 4.93a10 10 0 010 14.14M3.93 19.07a10 10 0 010-14.14"/></svg></div>
+        <h3>Signal Screener</h3>
+        <p>Buy and sell signals from RSI, MACD and 200-day moving average crossovers for major US stocks.</p>
+        <span class="badge badge-green">Technical analysis</span>
+      </a>
+      <a href="/markets/#macro" class="tool-card fade fade-3">
+        <div class="tool-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><rect x="2" y="7" width="6" height="14"/><rect x="9" y="2" width="6" height="19"/><rect x="16" y="11" width="6" height="10"/></svg></div>
+        <h3>Macro Dashboard</h3>
+        <p>Fed funds rate, CPI inflation, unemployment and the US treasury yield curve — all in one view.</p>
+        <span class="badge badge-blue">FRED data</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET PREVIEW -->
+<section class="section section--alt">
+  <div class="wrap">
+    <div class="flex-between mb-16" style="margin-bottom:28px">
+      <header class="sec-header" style="margin-bottom:0">
+        <div class="eyebrow mb-8">Markets</div>
+        <h2>Today's top movers</h2>
+      </header>
+      <a href="/markets/" class="btn btn-outline" style="flex-shrink:0">All Markets</a>
+    </div>
+    <div class="card">
+      <table class="preview-tbl">
+        <thead><tr><th>Asset</th><th>Price</th><th>24h Change</th><th>Volume</th><th>Trend</th></tr></thead>
+        <tbody id="preview-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS PREVIEW -->
+<section class="section">
+  <div class="wrap">
+    <div class="flex-between" style="margin-bottom:28px">
+      <header class="sec-header" style="margin-bottom:0">
+        <div class="eyebrow mb-8">News</div>
+        <h2>Latest from the markets</h2>
+      </header>
+      <a href="/news/" class="btn btn-outline" style="flex-shrink:0">All News</a>
+    </div>
+    <div class="grid-2" id="news-preview"></div>
+  </div>
+</section>
+
+<footer class="footer" id="footer"></footer>
+</body>
+</html>
